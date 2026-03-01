@@ -1,4 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // --- Lenis Smooth Scroll Initialization ---
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        mouseMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+        infinite: false,
+    });
+
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
 
     // --- Preloader Logic (4s) ---
     const preloader = document.getElementById("preloader");
@@ -19,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
         }, 1000);
 
-    }, 1000); // 4 seconds requirement
+    }, 2500); // 4 seconds requirement
 
     // --- Typing Effect (Hero Section) ---
     const typingText = document.querySelector(".typing-text");
@@ -73,12 +91,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- Data Injection (Skills & Services) ---
     const skillsData = [
-        { name: "Figma", percent: 85, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg' },
+        { name: "Web Dev", percent: 95, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
+        { name: "SEO", percent: 90, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg' },
         { name: "Graphic Design", percent: 95, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg' },
-        { name: "Digital Marketing", percent: 90, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg' },
-        { name: "Social Media Ads", percent: 92, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg' },
+        { name: "Figma", percent: 85, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg' },
+        { name: "Video Editing", percent: 85, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/premierepro/premierepro-plain.svg' },
+        { name: "Digital Marketing", percent: 92, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg' },
+        { name: "Social Media Ads", percent: 92, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/twitter/twitter-original.svg' },
         { name: "Amazon Listing Images", percent: 88, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
-        { name: "Marketing and Branding", percent: 96, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/chrome/chrome-original.svg' }
+        { name: "Business Strategy", percent: 88, icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/chrome/chrome-original.svg' },
+
     ];
 
     const servicesData = [
@@ -288,3 +310,70 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+
+
+const form = document.getElementById('form');
+
+if (form) {
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const formMessage = document.getElementById('form-message');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+
+        const originalText = submitBtn.innerHTML;
+
+        submitBtn.innerHTML = "Sending...";
+        submitBtn.disabled = true;
+
+        if (formMessage) {
+            formMessage.classList.add('hidden');
+            formMessage.classList.remove('success', 'error');
+        }
+
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                if (formMessage) {
+                    formMessage.innerHTML = "Success! Your message has been sent.";
+                    formMessage.classList.remove('hidden');
+                    formMessage.classList.add('success');
+                }
+                form.reset();
+            } else {
+                if (formMessage) {
+                    formMessage.innerHTML = "Error: " + data.message;
+                    formMessage.classList.remove('hidden');
+                    formMessage.classList.add('error');
+                }
+            }
+
+        } catch (error) {
+            if (formMessage) {
+                formMessage.innerHTML = "Something went wrong. Please try again.";
+                formMessage.classList.remove('hidden');
+                formMessage.classList.add('error');
+            }
+        } finally {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+
+            // Auto-hide the message after 3 seconds
+            setTimeout(() => {
+                if (formMessage) {
+                    formMessage.classList.add('hidden');
+                    formMessage.classList.remove('success', 'error');
+                }
+            }, 3000);
+        }
+    });
+}
