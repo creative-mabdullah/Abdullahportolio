@@ -17,6 +17,7 @@
     --grad-text: linear-gradient(135deg, var(--c-accent-purple), #d946ef);
 
     /* UI Elements */
+    --ui-imgborder: rgba(170, 192, 45, 0.671);
     --ui-border: rgba(0, 0, 0, 0.08);
     --ui-glass-bg: rgba(255, 255, 255, 0.7);
     --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
@@ -61,6 +62,27 @@
 html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+}
+
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+    pointer-events: none;
 }
 
 body {
@@ -182,7 +204,7 @@ ul {
 }
 
 .preloader-title {
-    font-size: 3rem;
+    font-size: 1.5rem;
     font-weight: 800;
     margin-bottom: 0.5rem;
     letter-spacing: -1px;
@@ -287,7 +309,7 @@ ul {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: var(--grad-primary);
+    background: #211C2F;
     color: white;
     font-size: 1.2rem;
     margin-left: 0.5rem;
@@ -531,7 +553,7 @@ ul {
     transform: translate(-50%, -50%);
     width: 120%;
     height: 120%;
-    border: 1px solid var(--ui-border);
+    border: 1px dashed var(--ui-imgborder);
     border-radius: 50%;
     z-index: 1;
 }
@@ -584,8 +606,8 @@ ul {
 }
 
 .tag-1 {
-    top: 20%;
-    right: -15%;
+    top: 30%;
+    right: -30%;
     animation-delay: 0s;
 }
 
@@ -1754,6 +1776,34 @@ ul {
         text-align: center;
     }
 
+    .form-message {
+        padding: 1rem;
+        margin-top: 1rem;
+        border-radius: var(--radius-sm);
+        text-align: center;
+        font-weight: 500;
+        transition: opacity 0.5s ease;
+    }
+
+    .form-message.hidden {
+        opacity: 0;
+        visibility: hidden;
+        height: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-message.success {
+        background: rgba(34, 197, 94, 0.1);
+        color: #22c55e;
+        border: 1px solid #22c55e;
+    }
+
+    .form-message.error {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+        border: 1px solid #ef4444;
+    }
 }
 
 
@@ -1780,14 +1830,17 @@ ul {
         width: 100%;
         gap: 0.8rem;
     }
-    .hero-stats-row{
+
+    .hero-stats-row {
         padding-left: 10px;
-        padding-right: 40px; 
+        padding-right: 40px;
         gap: 1.0rem;
     }
-    .stat-item h3{
+
+    .stat-item h3 {
         font-size: 14px;
     }
+
     .btn,
     .btn-outline {
         width: 100%;
