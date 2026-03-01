@@ -1,6 +1,6 @@
 # M Abdullah | Digital Portfolio
 
-[![Website](https://img.shields.io/badge/Portfolio-Live-brightgreen)]([https://m-abdullah-digital.vercel.app/](https://mabdullah06.vercel.app/))
+[![Website](https://img.shields.io/badge/Portfolio-Live-brightgreen)](https://mabdullah06.vercel.app/)
 
 ---
 
