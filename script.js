@@ -303,14 +303,138 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // --- AI Agent Icon Click (Future n8n implementation stub) ---
-    const agentBtn = document.getElementById('agent-btn');
-    agentBtn.addEventListener('click', () => {
-        // alert or visual feedback indicating agent launch
-        alert("AI Agent feature coming soon! (n8n backend integration pending)");
-    });
+    // const agentBtn = document.getElementById('agent-btn');
+    // agentBtn.addEventListener('click', () => {
+    //     // alert or visual feedback indicating agent launch
+    //     alert("AI Agent feature coming soon! (n8n backend integration pending)");
+    // });
+    // ================= AI CHATBOT LOGIC =================
 
+    // ================= AI CHATBOT LOGIC =================
+    const agentBtn = document.getElementById("agent-btn");
+    const chatbot = document.getElementById("chatbot");
+    const closeBtn = document.getElementById("chat-close");
+    const sendBtn = document.getElementById("send-btn");
+    const input = document.getElementById("chat-input");
+    const chatBody = document.getElementById("chat-body");
+    const overlay = document.getElementById("chat-overlay");
+    let isWaiting = false; // prevents multiple messages during AI response
+
+    // ===== CHAT SESSION TIMER (1 hour reset) =====
+    const CHAT_DURATION = 60 * 60 * 1000; // 1 hour
+
+    function loadChatHistory() {
+        const savedChat = localStorage.getItem("chatHistory");
+        const savedTime = localStorage.getItem("chatTimestamp");
+
+        if (!savedChat || !savedTime) return;
+
+        const now = Date.now();
+
+        // If more than 1 hour passed -> clear chat
+        if (now - savedTime > CHAT_DURATION) {
+            localStorage.removeItem("chatHistory");
+            localStorage.removeItem("chatTimestamp");
+            return;
+        }
+
+        chatBody.innerHTML = savedChat;
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function saveChatHistory() {
+        localStorage.setItem("chatHistory", chatBody.innerHTML);
+        localStorage.setItem("chatTimestamp", Date.now());
+    }
+
+    // Load chat on page start
+    loadChatHistory();
+
+
+    if (agentBtn && chatbot) {
+        chatBody.scrollTop = chatBody.scrollHeight;
+        saveChatHistory();
+        // OPEN MODAL
+        agentBtn.addEventListener("click", () => {
+            chatbot.classList.add("active");
+            if (overlay) overlay.classList.add("active");
+            input.focus();
+        });
+
+        // CLOSE MODAL
+        function closeChat() {
+            chatbot.classList.remove("active");
+            overlay.classList.remove("active");
+        }
+
+        closeBtn.addEventListener("click", closeChat);
+        overlay.addEventListener("click", closeChat);
+
+        async function sendMessage() {
+            if (isWaiting) return; // stop if AI still responding
+
+            const message = input.value.trim();
+            if (!message) return;
+
+            isWaiting = true;
+            input.disabled = true;
+            sendBtn.disabled = true;
+
+            // USER MESSAGE
+            const userDiv = document.createElement("div");
+            userDiv.className = "user-message";
+            userDiv.textContent = message;
+            chatBody.appendChild(userDiv);
+            saveChatHistory();
+
+            input.value = "";
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            // TYPING
+            const typingDiv = document.createElement("div");
+            typingDiv.className = "bot-message";
+            typingDiv.textContent = "Typing...";
+            chatBody.appendChild(typingDiv);
+            saveChatHistory();
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            try {
+                const response = await fetch("https://n8n.sovanza.net/webhook/abdchatbot", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message })
+                });
+
+                const data = await response.json();
+
+                typingDiv.remove();
+
+                const botDiv = document.createElement("div");
+                botDiv.className = "bot-message";
+                botDiv.textContent = data.answer || "No response received.";
+                chatBody.appendChild(botDiv);
+                saveChatHistory();
+                chatBody.scrollTop = chatBody.scrollHeight;
+
+
+                isWaiting = false;
+                input.disabled = false;
+                sendBtn.disabled = false;
+                input.focus();
+
+            } catch (error) {
+                console.error("Chatbot Error:", error);
+                typingDiv.textContent = "⚠ Server connection blocked (CORS)";
+            }
+        }
+
+        sendBtn.addEventListener("click", sendMessage);
+
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") sendMessage();
+        });
+    }
 });
-
 
 
 const form = document.getElementById('form');
@@ -362,6 +486,10 @@ if (form) {
                 formMessage.innerHTML = "Something went wrong. Please try again.";
                 formMessage.classList.remove('hidden');
                 formMessage.classList.add('error');
+
+                isWaiting = false;
+                input.disabled = false;
+                sendBtn.disabled = false;
             }
         } finally {
             submitBtn.innerHTML = originalText;
@@ -377,3 +505,14 @@ if (form) {
         }
     });
 }
+
+function addMessage(text, type) {
+    const msg = document.createElement("div");
+    msg.className = type + "-message";
+    msg.innerText = text;
+
+    chatBody.appendChild(msg);
+
+    chatBody.scrollTop = chatBody.scrollHeight;
+}
+
