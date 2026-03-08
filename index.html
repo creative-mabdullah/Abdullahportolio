@@ -5,30 +5,52 @@
     <!-- Basic Meta -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary SEO -->
     <title>M Abdullah | SEO Expert | Ecommerce & Digital Specialist</title>
+
     <meta name="description"
         content="M Abdullah is a professional SEO expert, ecommerce specialist, graphic designer, video editor, and web developer helping brands grow digitally with modern marketing strategies.">
-    <meta name="keywords"
-        content="M Abdullah, SEO Expert, Ecommerce Specialist, Graphic Designer, Video Editor, Web Developer, Digital Marketing Expert Pakistan, Shopify Expert, Social Media Marketing">
-    <meta name="author" content="M Abdullah">
+    <meta name="keywords" content="M Abdullah,
+        SEO Expert,
+        Ecommerce Specialist,
+        Graphic Designer,
+        Video Editor,
+        Web Developer,
+        Digital Marketing Expert Pakistan,
+        Shopify Expert,
+        Social Media Marketing">
+    <meta name="author" content="M Abdullah" />
     <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Language" content="en, ur" />
+    <meta name="geo.region" content="PK">
+    <meta name="geo.placename" content="Pakistan">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://mabdullah06.vercel.app/">
 
+    <!-- Google Verification (optional) -->
+    <meta name="google-site-verification" content="UKoQ0GbYXRuWjSQg8hx7ZWe86R9mGfGDi0cMaQJyhhs" />
+
     <!-- Open Graph (Facebook, LinkedIn Preview) -->
+    <meta property="og:site_name" content="M Abdullah Portfolio" />
     <meta property="og:title" content="M Abdullah | SEO & Ecommerce Specialist">
     <meta property="og:description"
         content="Professional SEO expert and digital specialist providing ecommerce solutions, web development, graphic design and video editing services.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mabdullah06.vercel.app/">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:image" content="https://mabdullah06.vercel.app/assets/logo.png">
 
     <!-- Twitter Preview -->
+    <meta property="og:site_name" content="M Abdullah Portfolio" />
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="M Abdullah | SEO & Digital Expert">
     <meta name="twitter:description"
         content="SEO Expert | Ecommerce Specialist | Graphic Designer | Video Editor | Web Developer">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta name="twitter:image" content="https://mabdullah06.vercel.app/assets/logo.png">
 
     <!-- Favicon -->
@@ -43,6 +65,75 @@
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="style.css">
+
+
+    <!-- Structured Data (Developer Schema) -->
+    <script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+
+{
+ "@type": "Person",
+ "name": "M Abdullah",
+ "url": "https://mabdullah06.vercel.app",
+ "image": "https://mabdullah06.vercel.app/assets/logo.png",
+ "jobTitle": "Full Stack Web & Mobile App Developer",
+ "description": "M Abdullah | SEO & Digital Expert",
+ "email": "creative.mabdullah06@gmail.com",
+"sameAs": [
+"https://github.com/creative-mabdullah",
+"https://www.linkedin.com/in/muhammad-abdullah-7509433b3",
+"https://wa.me/923037941000"
+
+]
+},
+
+{
+ "@type": "WebSite",
+ "name": "M Abdullah Portfolio",
+ "url": "https://mabdullah06.vercel.app",
+ "author": {
+   "@type": "Person",
+   "name": "M Abdullah"
+ }
+},
+
+{
+ "@type": "CreativeWork",
+ "name": "Developer Portfolio",
+ "creator": {
+   "@type": "Person",
+   "name": "M Abdullah"
+ },
+ "url": "https://mabdullah06.vercel.app"
+}
+
+ ]
+}
+</script>
+
+    <script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Portfolio Projects",
+ "applicationCategory": "WebApplication",
+ "creator": {
+   "@type": "Person",
+   "name": "M Abdullah"
+ },
+ "programmingLanguage": [
+   "Html",
+   "CSS",
+   "Javascript",
+   "Git",
+   "Github",
+ ],
+ "url": "https://mabdullah06.vercel.app"
+}
+</script>
+
 </head>
 
 
@@ -93,6 +184,28 @@
                 </div>
             </nav>
         </header>
+
+        <!-- AI Chatbot -->
+        <!-- <div class="chatbot-wrapper" id="chatbot">
+            <div class="chatbot-header">
+                <div class="chatbot-title">
+                    <i class="fa-solid fa-robot"></i>
+                    <span>AI Assistant</span>
+                </div>
+                <button id="chat-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="chatbot-body" id="chat-body">
+                <div class="bot-message">Hello 👋 How can I help you today?</div>
+            </div>
+
+            <div class="chatbot-footer">
+                <input type="text" id="chat-input" placeholder="Type your message...">
+                <button id="send-btn">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </div> -->
 
         <main>
             <!-- Hero Section -->
@@ -198,7 +311,7 @@
                                         class="fa-solid fa-globe"></i></a>
                                 <a href="https://github.com/creative-mabdullah" target="_blank" class="social-icon"><i
                                         class="fa-brands fa-github"></i></a>
-                                <a href="https://www.linkedin.com/in/muhammad-abdullah-7509433b3" target="_blank" class="social-icon"><i
+                                <a href="#" target="_blank" class="social-icon"><i
                                         class="fa-brands fa-linkedin-in"></i></a>
                                 <a href="#" target="_blank" class="social-icon"><i
                                         class="fa-brands fa-facebook-f"></i></a>
@@ -556,7 +669,7 @@
     <!-- Lenis Smooth Scroll -->
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
     <script src="script.js"></script>
+    <div class="chat-overlay" id="chat-overlay"></div>
 </body>
 
 </html>
-
