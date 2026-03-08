@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: http://mabdullah06.vercel.app/sitemap.xml
